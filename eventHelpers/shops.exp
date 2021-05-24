@@ -1,0 +1,52 @@
+; shop with 7 items
+; arg 1, 2 : X, Y coordinates
+; arg 3 - 9 : shop contents.
+macro SHOP7(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9)
+	db <arg1>, <arg2>
+	db <arg3>, 0, <arg4>, 0, <arg5>, 0, <arg6>, 0, <arg7>, 0, <arg8>, 0, <arg9>, 0, 0, 0
+endmacro
+
+; shop with 6 items
+; arg 1, 2 : X, Y coordinates
+; arg 3 - 8 : shop contents.
+macro SHOP6(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8)
+	%SHOP7(<arg1>, <arg2>, <arg3>, <arg4>, <arg5>, <arg6>, <arg7>, <arg8>, 0)
+endmacro
+
+; shop with 5 items
+; arg 1, 2 : X, Y coordinates
+; arg 3 - 7 : shop contents.
+macro SHOP5(arg1, arg2, arg3, arg4, arg5, arg6, arg7)
+	%SHOP6(<arg1>, <arg2>, <arg3>, <arg4>, <arg5>, <arg6>, <arg7>, 0)
+	;db <arg1>, <arg2>
+	;db <arg3>, 0, <arg4>, 0, <arg5>, 0, <arg6>, 0, <arg7>, 0, 0 
+endmacro
+
+; shop with 4 items
+; arg 1, 2 : X, Y coordinates
+; arg 3-6 : shop contents.
+macro SHOP4(arg1, arg2, arg3, arg4, arg5, arg6)
+	%SHOP5(<arg1>, <arg2>, <arg3>, <arg4>, <arg5>, <arg6>, 0)
+endmacro
+
+; shop with 3 items
+; arg 1, 2 : X, Y coordinates
+; arg 3-5 : shop contents.
+macro SHOP3(arg1, arg2, arg3, arg4, arg5)
+	%SHOP4(<arg1>, <arg2>, <arg3>, <arg4>, <arg5>, 0)
+endmacro
+
+; shop with 2 items
+; arg 1, 2 : X, Y coordinates
+; arg 3-4 : shop contents.
+macro SHOP2(arg1, arg2, arg3, arg4)
+	%SHOP4(<arg1>, <arg2>, <arg3>, <arg4>, 0)
+endmacro
+
+; shop with 1 item
+; arg 1, 2 : X, Y coordinates
+; arg 3 : shop contents.
+macro SHOP1(arg1, arg2, arg3)
+	db <arg1>, <arg2>
+	db <arg3>, 0, 0, 0, 0
+endmacro

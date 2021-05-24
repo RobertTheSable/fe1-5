@@ -1,0 +1,37 @@
+!Esc_Left = 0
+!Esc_Right = 2
+!Esc_Up = 4
+!Esc_Down = 6
+
+!LordOnly = 2
+!AllUnits = 1
+
+; Define an escpade point
+; arg1: X coordinate
+; arg2: Y coordinate
+; arg3: Direction Arrow faces
+macro EscapePoint(arg1, arg2, arg3)
+	db <arg1>, <arg2>, <arg3>
+endmacro
+
+; Leave behind units that have not escaped in an escape chapter.
+macro LeaveBehindUnits()
+	%CALL_LW($1D, $8CA7D0, 0)
+	%CALL_LW($1D, $8CABDB, 0)
+	%CALL_LW($1D, $8CB789, 0)
+endmacro
+
+; Basic escape event. Show Escape quote, move unit along movement string.
+; arg1: Movement string pointer.
+macro Escape(arg1)
+	%STOW($001736, 0)
+	%CALL_LL($13, $001736, $000E6F)
+	%CALL_L($2C, $8CE0FF)
+	db $FC
+	%CALL_LW($1D, $8CA3C7, 0)
+	%CALL_LW($1D, $8CA426, 0)
+	%MOV3($FFFF, 0, 0, 1, <arg1>)
+	%CALL_LW($1D, $8CA097, 0)
+	%_45FC()
+	%CALL_LW($1D, $8CA445, 0)
+endmacro

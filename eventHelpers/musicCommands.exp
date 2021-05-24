@@ -1,0 +1,20 @@
+; play the specified song
+; arg1 : Sound to play
+macro MUSI(arg1)
+	db $31
+	db <arg1>
+	db $FC
+endmacro
+
+; play a sound effect
+; arg1 : Sound effect
+macro SFX(arg1)
+	db $34, <arg1> 
+endmacro
+
+; Excecut some audio command (such as fading, or stopping.
+; arg1 : command to execute
+macro SCOM(arg1)
+	db $35
+	dw <arg1>
+endmacro

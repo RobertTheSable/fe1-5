@@ -1,0 +1,38 @@
+!BGCastle = $01 ; a castle interior with some colums and a torch
+!BGHallway = $02 ; a long indoor hallway
+!BGTown = $03 ; an outdoor backgroud with some trees and houses
+!BGHouse = $04 ; interior of a house
+!BGCastle2 = $05 ; this looks identical to the first castle background?
+
+macro TEX1(arg1)
+	db $2B
+	dl <arg1>
+	db $FC
+endmacro
+
+; these macros deal with text with backgrounds
+
+; prepare to show backround text:
+; arg1 : text to show
+; arg2 : background to display
+macro PrepBackgroundText(arg1, arg2)
+	%STOW($001740, <arg2>)
+	%CALL_LW($1B, $8CD0FB, $A23A)
+	%CALL_LW($25, $000302, $0009)
+	%CALL_LL($1C, $8CD0C3, <arg1>)
+	db 0, 0, 0
+	db $FC
+endmacro
+
+; dispaly backgorund text after preparing it
+macro ShowBackgroundText1()
+	db $27, $01
+	db $FC
+endmacro
+
+; this fades in much faster
+macro ShowBackgroundText2()
+	%CALL_LW($25, $0017E9, $0000)
+	db $27, $01
+	db $FC
+endmacro

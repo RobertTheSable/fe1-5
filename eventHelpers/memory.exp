@@ -1,0 +1,40 @@
+; store a nyte to an address in memory
+; arg1 : address (long) to store to
+; arg2 : word to store
+macro STOB(arg1, arg2)
+	%CALL_LB($0F, <arg1>, <arg2>)
+endmacro
+; store a word to an address in memory
+; arg1 : address (long) to store to
+; arg2 : word to store
+macro STOW(arg1, arg2)
+	%CALL_LW($10, <arg1>, <arg2>)
+endmacro
+
+; store a long to an address in memory
+; arg1: address to store to
+; arg2: long to store
+macro STOL(arg1, arg2)
+	%CALL_LL($11, <arg1>, <arg2>)
+endmacro
+
+; copy byte from address 2 to address 1. 
+; arg1 : read address
+; arg2 : write address
+macro CPYB(arg1, arg2)
+	%CALL_LL($12, <arg1>, <arg2>)
+endmacro
+
+; copy word from address 2 to address 1. 
+; arg1 : read address
+; arg2 : write address
+macro CPYW(arg1, arg2)
+	%CALL_LL($13, <arg1>, <arg2>)
+endmacro
+
+; copy long from address 2 to address 1. 
+; arg1 : read address
+; arg2 : write address
+macro CPYL(arg1, arg2)
+	%CALL_LL($14, <arg1>, <arg2>)
+endmacro

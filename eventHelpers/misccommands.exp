@@ -1,0 +1,111 @@
+macro endw()
+	dw !END
+endmacro
+
+macro ENDEV()
+	db $FE
+endmacro
+
+; these are for use in other macros
+; call an event function with no argument
+; arg1 : function to call
+macro CALL(arg1)
+	db <arg1>
+endmacro
+
+; arg1: function to call
+; arg2: values to pass
+macro CALL_B(arg1, arg2)
+	db <arg1>
+	db <arg2>
+endmacro
+
+macro CALL_L(arg1, arg2)
+	db <arg1>
+	dl <arg2>
+endmacro
+
+; arg1: "function" to call
+; arg2, arg3: values to pass
+macro CALL_BB(arg1, arg2, arg3)
+	db <arg1>
+	db <arg2>
+	db <arg3>
+endmacro
+
+macro CALL_LB(arg1, arg2, arg3)
+	db <arg1>
+	dl <arg2>
+	db <arg3>
+endmacro
+
+macro CALL_LW(arg1, arg2, arg3)
+	db <arg1>
+	dl <arg2>
+	dw <arg3>
+endmacro
+
+macro CALL_LL(arg1, arg2, arg3)
+	db <arg1>
+	dl <arg2>
+	dl <arg3>
+endmacro
+
+; arg1: time to wait for
+macro WAIT(arg1)
+	db $1E
+	dw <arg1>
+	db $FC
+endmacro
+
+macro _45FC()
+	db $45, $FC
+endmacro
+
+; wait until the previous command has finished executing
+macro WaitUntilFinished()
+	%_45FC()
+	%_45FC()
+endmacro
+
+; jump to a given label
+; arg1 : label to jump to
+macro GOTO(arg1)
+	db $02
+	dw <arg1>
+endmacro
+
+; jump to a given label if a condition is true
+; arg1 : label to jump to
+macro GOTOT(arg1)
+	db $03
+	dw <arg1>
+endmacro
+
+; jump to a given label if a condition is false
+; arg1 : label to jump to
+macro GOTOF(arg1)
+	db $04
+	dw <arg1>
+endmacro
+
+; jump to arg2 if arg1 is the active character
+macro IfCharacter(arg1, arg2)
+	%CALL_LW($0B, $000E6F, <arg1>)
+	%GOTOT(<arg2>)
+endmacro
+
+;show the specified title
+; arg: poitner to chapter title text
+macro ShowTitle(arg1)
+	%STOL($000530, <arg1>)
+	%STOW($00052F, <arg1>)
+	%STOL($00006D, $9A814C)
+	%CALL_LW($1B, $8C83E7, 0)
+	db $FC
+endmacro
+
+macro GameOver()
+	%CALL_LW($1B, $80c29d, $0000) 
+	%STOW($001791, $FFFF)
+endmacro

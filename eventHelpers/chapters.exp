@@ -1,0 +1,7 @@
+macro NXCH()
+	%CALL_LW($1D, $8CAB5B, 0)
+endmacro
+
+macro ENDCH()
+	db $FF
+endmacro

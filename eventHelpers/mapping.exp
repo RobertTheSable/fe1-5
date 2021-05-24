@@ -1,0 +1,41 @@
+; change a tile
+; arg1: X coordinate
+; arg2: Y Coordinate
+; arg3: new tile number
+macro ChangeTile(arg1, arg2, arg3)
+	%STOW($001738, <arg1>)
+	%STOW($00173A, <arg2>)
+	%STOW($001740, <arg3>)
+	%CALL_LW($1D, $8CAADA, 0)
+	db $00
+endmacro
+
+; scroll the camera to a specific location
+; location is specified by a pointer
+macro CAM(arg1)
+	%CALL_L($44, <arg1>)
+endmacro
+
+; snap the camera to a specified set of coordinatea
+; arg1: X coordinate
+; arg2: Y coordinate
+macro CAM2(arg1, arg2)
+	%CALL_BB( $39, <arg1>, <arg2>)
+endmacro
+
+macro FADEIN()
+	%CALL_LB($24, $00007B, $0F)
+endmacro
+
+; arg1: ID of event to change
+macro MapChange(arg1)
+	%CALL_LB($22, $000448, 0)
+	%CALL_LW($1D, $8CAD09, 0)
+	%CALL_LB($22, $000448, 0)
+	%CALL_LB($22, $000345, 0)
+	%STOW($001740, <arg1>)
+	%CALL_LW($1D, $8CACD3, 0)
+	%CALL_LB($22, $000345, 0)
+	db 0, 0
+	%WAIT($0A)
+endmacro

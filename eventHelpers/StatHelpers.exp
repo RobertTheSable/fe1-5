@@ -1,0 +1,69 @@
+!ID = $00
+!Class = $02
+!Level = $07
+!EXP = $08
+
+!HP = $09
+!MaxHP = $0A
+!Strength = $0B
+!Magic = $0C
+!Skill = $0D
+!Speed = $0E
+!Defense = $0F
+!Luck = $10
+!Build = $11
+!Constitution = $11
+!CapturedUnit = $12
+!Fatigue = $14
+!Status = $15
+!MagicBonus = $16
+!VisionBonus = $17
+!MovementStars = $18
+!Leadership = $19
+!Leader = $1A
+
+!Skill1 = $1C
+!Skill2 = $1D
+!Skill3 = $1E
+
+!Item1 = $1F
+!Item1Amount = $20
+!Item2 = $21
+!Item2Amount = $22
+!Item3 = $23
+!Item3Amount = $24
+!Item4 = $25
+!Item4Amount = $26
+!Item5 = $27
+!Item5Amount = $28
+!Item6 = $29
+!Item6Amount = $2a
+!Item7 = $2B
+!Item7Amount = $2C
+
+!SwordRank = $2D
+!LanceRank = $2E
+!AxeRank = $2F
+!BowRank = $30
+!StaffRank = $31
+!FireRank = $32
+!ThunderRank = $33
+!WindRank = $34
+!LightRank = $35
+!DarkRank = $36
+
+;Status Effects
+!Normal = $00
+!Sleep = $01
+!Berserk = $02
+!Poison = $03
+!Silence = $04
+!Stone = $05
+
+;Movement Star Amounts
+!NoStar = $01
+!OneStar = $05
+!TwoStar = $0A
+!ThreeStar = $0f
+!FourStar = $14
+!FiveStar = $19

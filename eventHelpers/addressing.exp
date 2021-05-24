@@ -1,0 +1,11 @@
+
+; Create a long address
+; arg1: address
+macro ADDRL(arg1)
+	dl <arg1>
+endmacro
+
+; create a null long address
+macro LONGNULL()
+	%ADDRL($00)
+endmacro

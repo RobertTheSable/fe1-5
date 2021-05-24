@@ -1,0 +1,17 @@
+; Set event ID
+; arg1: Event ID
+macro ENUT(arg1)
+	db $0C, <arg1>
+endmacro
+
+; Unset event ID
+; arg1: Event ID
+macro ENUF(arg1)
+	db $0D, <arg1>
+endmacro
+
+; Check if Event ID is set
+; arg1: Event ID
+macro IFEV(arg1)
+	db $0E, <arg1>
+endmacro

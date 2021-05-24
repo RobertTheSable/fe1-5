@@ -1,0 +1,81 @@
+!NoMusic = $00
+!Leaf_Army_Base = $01
+!Leaf_Army_Chrge_A = $02
+!Leaf_Army_Chrge_B = $03
+!Leaf_Army_Adversity = $04
+!Leaf_Army_Victory = $05
+!Leaf_Army_Defeat = $06
+!Leaf_Army_Searching_The_Enemy = $07
+!Leaf_Army_Leif = $08
+!Menace_BaseA = $09
+!Menace_BaseB = $0a
+!Menace_Charge = $0b
+!Menace_Priest_Of_Darkness = $0c
+!Menace_Searching_The_Enemy = $0d
+!Menace_Final_Chapter = $0e
+; Note playing the battle themes on the map can cause some weird sound effects to play.
+!PC_Battle = $11 
+!EP_Battle = $12 
+!Staff1 = $13
+!Staff2 = $14
+!Dancer = $15
+!Promotion = $16 ; Note: Doesn't loop
+!BossFight = $17
+!RaydrickFight = $18
+!VeldFight = $19
+!ArenaFight = $1a
+!LevelUp1 = $1b
+!LevelUp2 = $1c
+
+;These four don't have the odd sound present in the others and are safe to play on the map
+!EPBattle2 = $1d 
+!BossBattle2 = $1e 
+!RaydrickFight2 = $1f
+!VeldFight2 = $20
+
+!Beginning = $21
+!FireEbmlemThemeAndIntro = $22
+!FireEmblemTheme = $23
+!Ending = $24
+!Afterward1 = $25
+!Ending_Ballad = $26 ; sounds REALLY glitchy on a map, probably best not to use it.
+!Ending_Organ = $27
+!GameOver = $28
+!MapA = $29
+!MapBA = $2a
+!MapBB = $2b
+!MapC = $2c
+!Sally = $2d
+!Crisis = $31
+!Charge = $32
+!Fate = $33
+!ArmyA = $39
+!Barbarians = $3a
+!RaydrickTheme = $3b
+!LoptA = $3c
+!Thracia = $3d
+!LoptB = $3e
+!ArmyB = $3f
+!Victory = $41 ; DON'T PLAY THIS ON A MAP UNLESS YOU WANT TO LAUGH YOURSELF TO DEATH
+!VictoryMinor = $42
+!AugustTalksA = $43
+!AugustTalksB = $44
+!GoGoLeaf = $45
+!ArenaLobby = $49 ; Glitchy on map
+!Joining_A_Group = $4a
+!MeetingAndMeeetingAgain = $4b
+!Comical = $4c
+!Church = $4d
+!Grief = $4e
+!Sara = $4f
+!Eyvel = $50
+
+; sound commands
+!Fade_Out = $E0
+!Fade_Fast = $F0
+!Dim = $F7
+
+;SFX numbers
+!DestroySound = $45
+!OpenDoor = $6B
+!Bump = $6c

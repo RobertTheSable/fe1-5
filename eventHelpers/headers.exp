@@ -1,0 +1,413 @@
+!CharX = $000E4D
+!CharY = $000E4F
+!ActiveChar = $000E6F
+!Phase = $000E15
+
+; Opening Event Header
+; arg1: ID
+; arg2: Pointer to event
+macro OPEN(arg1, arg2)
+	db <arg1> 
+	dl <arg2>
+	db $06 
+	dl $000E13
+	dw $000000
+	db $FF
+endmacro
+
+; Village Headers (Villages, Houses, Chests, Doors, Seize)
+
+; village event for a specific character.
+; arg1: ID
+; arg2: Event Address
+; arg3: X location
+; arg4: Y location
+; arg5: Active Character
+macro VILLC(arg1, arg2, arg3, arg4, arg5)
+	db <arg1>
+	dl <arg2>
+	db $05
+	dl !CharX
+	db <arg3>
+	db $05
+	dl !CharY
+	db <arg4>
+	db $06
+	dl !ActiveChar
+	dw <arg5>
+	db $FF
+endmacro
+
+; generic village event
+; arg1: ID
+; arg2: Event Address
+; arg3: X location (word)
+; arg4: Y location (word)
+macro VILL(arg1, arg2, arg3, arg4)
+	db <arg1>
+	dl <arg2>
+	db $06
+	dl !Phase
+	dw $0000
+	db $05
+	dl !CharX
+	db <arg3>
+	db $05
+	dl !CharY
+	db <arg4>
+	db $FF
+endmacro
+
+macro VILLT(arg1, arg2, arg3, arg4)
+	db <arg1>
+	dl <arg2>
+	db $06
+	dl !Phase
+	dw $0000
+	db $05
+	dl !CharX
+	db <arg3>
+	db $05
+	dl !CharY
+	db <arg4>
+	db $0E, 8
+	db $FF
+endmacro
+
+;event to destroy a village
+; arg1: ID
+; arg2: Event Address
+; arg3: X location (word)
+; arg4: Y location (word)
+macro DestroyVillage(arg1, arg2, arg3, arg4)
+	db <arg1>
+	dl <arg2>
+	db $05
+	dl !CharX
+	db <arg3>
+	db $05
+	dl !CharY
+	db <arg4>
+	db $06
+	dl !Phase
+	dw $0040
+	db $FF
+endmacro
+
+; chest event
+; arg1: ID
+; arg2: pointer to the chest event
+; Note: This assumes that a chest event has the X coordinate, Y coordinate, then the event code 
+macro CHES(arg1, arg2)
+	db <arg1>
+	dl <arg2>+4
+	db $09
+	dl !CharX
+	dl <arg2>
+	db $09
+	dl !CharY
+	dl <arg2>+1
+	db $FF
+endmacro
+
+; Door or Bridge(?) Event
+; arg1: ID
+; arg2: Pointer
+macro DOOR(arg1, arg2, arg3, arg4)
+	db <arg1>
+	dl <arg2>
+	db $05
+	dl $7E4fA0
+	db <arg3>
+	db $05
+	dl $7E4fA2
+	db <arg4>
+	db $FF
+endmacro
+
+; Seize event
+; arg1: ID
+; arg2: Event Address
+; arg3: X location (word)
+; arg4: Y location (word)
+macro SEIZE(arg1, arg2, arg3, arg4)
+	db <arg1>
+	dl <arg2>
+	db $05
+	dl !CharX
+	db <arg3>
+	db $05
+	dl !CharY
+	db <arg4>
+	db $06
+	dl $150E00
+	dw $0000
+	db $06
+	dl !ActiveChar
+	dw $0001
+	db $FF
+endmacro
+
+; Talk Headers
+
+; a simple one-way talk, with no terminator
+; arg1 -> ID
+; arg2 -> Pointer to event
+; arg3 -> Strarting character
+; arg4 -> finishing character
+; mainly for use in other macros. use this if you have 
+; a bunch of weird preconditions.
+; make sure to add a terminator byte ($FF)
+macro TALK(arg1, arg2, arg3, arg4)
+	db <arg1>
+	dl <arg2>
+	db $01
+	dw <arg3> 
+	dw <arg4>
+endmacro
+
+; a simple one-way talk with no preconditions
+; arg1 -> ID
+; arg2 -> Pointer to event
+; arg3 -> Starting character
+; arg4 -> Recieving character
+macro TALK1(arg1, arg2, arg3, arg4)
+	%TALK(<arg1>, <arg2>, <arg3>, <arg4>)
+	db $FF
+endmacro
+
+; Battle Quotes
+
+; boss quote
+; arg1: ID
+; arg2: character
+macro BossQuote(arg1, arg2)
+	db <arg1>
+	dl $998024
+	db $02
+	dw <arg2>
+	db $FF
+endmacro
+
+; Area Headers
+
+; Single tile area event
+; arg1: ID
+; arg2: Event Address
+; arg3: X location
+; arg4: Y location
+macro LOCA(arg1, arg2, arg3, arg4)
+	db <arg1>
+	dl <arg2>
+	db $05
+	dl !CharX
+	db <arg3>
+	db $05
+	dl !CharY
+	db <arg4>
+	db $06
+	dl $150E00
+	dw $0000
+	db $FF
+endmacro
+
+; Multiple tile area event
+; arg1: ID
+; arg2: Event Address
+; arg3: minimum X
+; arg4: minimum Y
+; arg5: maximum X
+; arg6: maximum Y
+macro AREA(arg1, arg2, arg3, arg4, arg5, arg6)
+	db <arg1>
+	dl <arg2>
+	db $0B
+	dl !CharX
+	db <arg3>, <arg5>
+	db $0B
+	dl !CharY
+	db <arg4>, <arg6>
+	db $FF
+endmacro
+
+; Multiple tile area event, for a specific character
+; arg1: ID
+; arg2: Event Address
+; arg3: minimum X
+; arg4: minimum Y
+; arg5: maximum X
+; arg6: maximum Y
+; arg7: character
+macro AREA1(arg1, arg2, arg3, arg4, arg5, arg6)
+	db <arg1>
+	dl <arg2>
+	db $06
+	dl !ActiveChar
+	dw <arg7>
+	db $0B
+	dl !CharX
+	db <arg3>, <arg5>
+	db $0B
+	dl !CharY
+	db <arg4>, <arg6>
+	db $FF
+endmacro
+
+; use this in conjunction with escape events.
+; arg1: ID
+; arg2: Pointer to event
+; arg3: ID of escape event
+macro LORDESCAPED(arg1, arg2, arg3)
+	db <arg1>
+	dl <arg2>
+	db $0D, <arg3>
+	db $FF
+endmacro
+
+; Turn Headers
+
+; Single Turn Event
+; arg1: ID
+; arg2: Event pointer
+; arg3: Turn
+; arg4: Phase
+macro TURN(arg1, arg2, arg3, arg4)
+	db <arg1>
+	dl <arg2>
+	db $06
+	dl $000E13
+	dw <arg3>
+	db $06
+	dl $000E15
+	dw <arg4>
+	db $ff
+endmacro
+
+
+; Repeating Turn Event
+; arg1: ID
+; arg2: Event pointer
+; arg3: Starting Turn
+; arg4: Ending turn
+; arg5: Phase
+macro TURNS(arg1, arg2, arg3, arg4, arg5)
+	db <arg1>
+	dl <arg2>
+	db $0C
+	dl $000E13
+	dw <arg3>, <arg4>
+	db $06
+	dl !Phase
+	dw <arg5>
+	db $18, $3C
+	db $ff
+endmacro
+; Trigger Event if a unit has died.
+; arg1: ID
+; arg2: Pointer to Event
+; arg3: Character ID
+; arg4: Phase
+macro UnitDead(arg1, arg2, arg3, arg4)
+	db <arg1>
+	dl <arg2>
+	db $1A
+	dw <arg3>
+	db $06
+	dl !Phase
+	dw <arg4>
+	db $FF
+endmacro
+
+; Escape Headers
+
+; Escape during given phase
+; arg1: ID
+; arg2: Pointer to event
+; arg3: Phase
+; arg4: Blocking event ID
+macro ESCP(arg1, arg2, arg3, arg4)
+	db <arg1>
+	dl <arg2>
+	db $06
+	dl !Phase
+	dw <arg3>
+	db $0E
+	db <arg4>
+	db $FF
+endmacro
+; Escape with a character
+; arg1: ID
+; arg2: Pointer to event
+; arg3: Character
+macro ESCC(arg1, arg2, arg3)
+	db <arg1>
+	dl <arg2>
+	db $04
+	dl $7E4F98
+	dw $0008
+	db $0F
+	dl $8CA400
+	db $06
+	dl !ActiveChar
+	dw <arg3>
+	db $FF
+endmacro
+; Escape while holding a character
+; arg1: ID
+; arg2: Pointer to event
+; arg3: Character
+macro ESCH(arg1, arg2, arg3)
+	db <arg1>
+	dl <arg2>
+	db $04
+	dl $7E4F98
+	dw $0008
+	db $0F
+	dl $8CA400
+	db $14
+	dw <arg3>
+	db $FF
+endmacro
+
+; Escape before an event
+; arg1: ID
+; arg2: Pointer to event
+; arg3: Event ID that blocks this escape
+macro ESCE(arg1, arg2, arg3)
+	db <arg1>
+	dl <arg2>
+	db $04
+	dl $7E4F98
+	dw $0008
+	db $0E
+	db <arg3>
+	db $0F
+	dl $8CA400
+	db $06
+	dl !Phase
+	dw $0000
+	db $FF
+endmacro
+; Standard Escape header
+; Escape with/holding Lord, Escape before event ID 8
+; arg1: Lord Escape ID
+; arg2: pointer to event
+; arg3: Lord character number
+macro StandardEscape(arg1, arg2, arg3)
+	%ESCC(<arg1>, <arg2>,<arg3>)
+	%ESCH(<arg1>, <arg2>, <arg3>)
+	%ESCE(0, <arg2>, <arg1>)
+endmacro
+
+; Shop header
+; arg1: ID
+; arg2: pointer
+macro SHOP(arg1, arg2)
+	db <arg1>
+	dl <arg2>
+	db $09
+	dl $000E4D, <arg2>
+	db $09
+	dl $000E4F, <arg2>+1
+	db $FF
+endmacro

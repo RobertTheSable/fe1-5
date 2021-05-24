@@ -1,0 +1,46 @@
+; give the active character an item
+; arg1: item to give
+macro GiveItem(arg1)
+	%STOW($001740, $0040)
+	%CALL_LW($1D, $8CA613, 0)
+	%STOW($001740, <arg1>)
+	%WAIT($0A)
+	db $FC
+	%CALL_LW($1D, $8CA8DD, 0)
+	db $00
+	%CALL_LW($1D, $8CA97E, 0)
+	%CALL_LW($1D, $8CA9B4, 0)
+	%CALL_LW($1D, $8CA956, 0)
+	%CALL_LW($1D, $8CA96D, 0)
+
+	%STOW($001740, $0040)
+	%CALL_LW($1D, $8CA62E, 0)
+endmacro
+
+; give the active character an item, use this in area events
+; arg1: item to give
+macro GiveItem2(arg1)
+	%STOW($001740, <arg1>)
+	%WAIT($0A)
+	db $FC
+	%CALL_LW($1D, $8CA8DD, 0)
+	db $00
+	%CALL_LW($1D, $8CA97E, 0)
+	%CALL_LW($1D, $8CA9B4, 0)
+	%CALL_LW($1D, $8CA956, 0)
+	%CALL_LW($1D, $8CA96D, 0)
+	%CALL_LW($1D, $8CA7D4, 0)
+endmacro
+
+; give item in a chest event
+; arg1: Chest pointer
+; Item should be at (chest Pointer + 2
+macro GiveChestItem(arg1)
+	%CALL_LL($13, $001740, <arg1>+2)
+	%CALL_LW($1D, $8CA8DD, 0)
+	db $00
+	%CALL_LW($1D, $8CA97E, 0)
+	%CALL_LW($1D, $8CA9B4, 0)
+	%CALL_LW($1D, $8CA956, 0)
+	%CALL_LW($1D, $8CA96D, 0)
+endmacro

@@ -1,0 +1,28 @@
+; characters
+!Marth = $0001
+!Jagen = $0002
+!Cain = $0003
+!Abel = $0004
+!Barst = $0007
+!Castor = $0008
+!Gordin = $0009
+!Bord = $000D
+!Ogma = $000E
+!Cord = $0012
+!Sheeda = $0013
+!Doga = $0015
+!Wrys = $0029
+
+
+;bosses
+!Gazzack = $0036
+!Gomer = $0038
+
+; npcs
+
+; generics
+!Galder_Pirate = $003A
+!Galder_Hunter = $003B
+!GenericThief = $0077
+
+!GrustCavalier = $0112;

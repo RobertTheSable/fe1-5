@@ -1,0 +1,169 @@
+!NoAI = $00
+!TargetVillages = $00000902
+!BossAI = $00030301
+!ThiefAI = $00000B15 ;(need confirmation)
+
+!Player = $00
+!Enemy = $40
+!NPC = $80
+
+; load a group of units
+; arg1 : pointer/label containtin a list of units
+macro LOU1(arg1)
+	db $42
+	dl <arg1>
+endmacro
+
+; load a group of units. Unit will not be loaded if there is someone else occupying the title.
+; Use this for reinforcements and such.
+; arg1 : pointer/label containtin a list of units
+macro LOU2(arg1)
+	db $43
+	dl <arg1>
+endmacro
+
+; load one unit, use in village recruitments
+; arg1: pointer to character to load
+macro LOU3(arg1)
+	%STOL($001798, <arg1>)
+	%CALL_LW($1D, $8CAE1C, 0)
+	db 0
+endmacro
+
+; move following a movement pointer
+; arg1 : unit to move
+; arg2 : X coordinate
+; arg3 : Y coordinate
+; arg4 : movement speed
+; arg5 : pointer to movement instructions
+macro MOV3(arg1, arg2, arg3, arg4, arg5)
+	db $41
+	dw <arg1>
+	dw $0000
+	db <arg2>, <arg3>, <arg4>
+	dl <arg5>
+	db $00
+	
+endmacro
+; move at a given speed
+; arg1 : unit to move
+; arg2 : X coordinate
+; arg3 : Y coordinate
+; arg4 : movement speed
+macro MOV2(arg1, arg2, arg3, arg4)
+	%MOV3(<arg1>,<arg2>,<arg3>,<arg4>,$000000)
+endmacro
+; move a unit
+; arg1 : Unit to move
+; arg2 : X coordinate
+; arg3 : Y coordinate
+macro MOV1(arg1, arg2, arg3)
+	%MOV2(<arg1>, <arg2>, <arg3>, 01)
+endmacro
+
+; set a given stat for a given unit
+; arg1 : unit
+; arg2 : stat to change
+; arg3 : value to change to
+macro SetStat(arg1, arg2, arg3)
+	%STOW( $001736, <arg1>)
+	%STOW( $001740, <arg2>)
+	%STOW( $001742, <arg3>)
+	%CALL_LW( $1D , $8cb0cc, $0000)
+endmacro
+
+; make a unit dissapear
+; arg1: unit to dissapear
+macro Hide(arg1)
+	%STOW($001736, <arg1>)
+	%CALL_LW($1D, $8CA343, 0)
+endmacro
+
+; recruit unit to player side
+; arg1: unit
+macro ChangeAlign(arg1)
+	%STOW($001736, <arg1>)
+	%CALL_LW( $1D , $8CA177, $0000)
+endmacro
+
+; load player units in maps without a prep screen
+macro LoadPlayerArmy()
+	%STOW($001740, $0380)
+	db $1D, $E9, $A5, $8C, $00, $00 
+	%STOW($001798, $0002)
+	db $1D, $81, $AF, $8C, $00, $00
+	db $1D, $73, $AF, $8C, $00, $00
+endmacro
+
+
+; arg1 : Id
+; arg2 : Affiliation
+; arg3 , arg4 : Starting X, Y Coordinate (word)
+; arg5 , arg6 : Finishing X, Y Coordinate (word)
+; arg7 : Leader
+; arg8 - 14 : Inventory slots
+; arg15 : Level
+; arg16 : AI
+macro UNIT(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16)
+	dw <arg1>
+	db <arg2>+<arg3>, <arg4>
+	db <arg5>, <arg6> 
+	dw <arg7>
+
+	db <arg8>,<arg9>,<arg10>,<arg11>,<arg12>,<arg13>,<arg14>
+	
+	db <arg15>
+	dd <arg16>
+endmacro
+
+; Macro for unit with only one item
+; arg1 : Id
+; arg2 : Affiliation
+; arg3 , arg4 : Starting X, Y Coordinate (word)
+; arg5 , arg6 : Finishing X, Y Coordinate (word)
+; arg7 : Leader
+; arg8 : Item
+; arg9 : Level
+; arg10 : AI
+macro UNIT1(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
+	%UNIT(<arg1>, <arg2>, <arg3>, <arg4>, <arg5>, <arg6>, <arg7>, <arg8>, $00, $00, $00, $00, $00, $00, <arg9>, <arg10>)
+endmacro
+
+; Macro for unit with only two items
+; arg1 : Id
+; arg2 : Affiliation
+; arg3 , arg4 : Starting X, Y Coordinate (word)
+; arg5 , arg6 : Finishing X, Y Coordinate (word)
+; arg7 : Leader
+; arg8-9 : Item
+; arg10 : Level
+; arg11 : AI
+macro UNIT2(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11)
+	%UNIT(<arg1>, <arg2>, <arg3>, <arg4>, <arg5>, <arg6>, <arg7>, <arg8>, <arg9>, $00, $00, $00, $00, $00, <arg10>, <arg11>)
+endmacro
+
+;Macro for unit with 3 items
+; arg1 : Id
+; arg2 : Affiliation
+; arg3 , arg4 : Starting X, Y Coordinate (word)
+; arg5 , arg6 : Finishing X, Y Coordinate (word)
+; arg7 : Leader
+; arg8-10 : Item
+; arg11 : Level
+; arg12 : AI
+macro UNIT3(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12)
+	%UNIT(<arg1>, <arg2>, <arg3>, <arg4>, <arg5>, <arg6>, <arg7>, <arg8>, <arg9>, <arg10>, $00, $00, $00, $00, <arg11>, <arg12>)
+endmacro
+
+; Macro for unit with 4 items
+; arg1 : Id
+; arg2 : Affiliation
+; arg3 , arg4 : Starting X, Y Coordinate (word)
+; arg5 , arg6 : Finishing X, Y Coordinate (word)
+; arg7 : Leader
+; arg8-11 : Item
+; arg12 : Level
+; arg13 : AI
+macro UNIT4(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13)
+	%UNIT(<arg1>, <arg2>, <arg3>, <arg4>, <arg5>, <arg6>, <arg7>, <arg8>, <arg9>, <arg10>, <arg11>, $00, $00, $00, <arg12>, <arg13>)
+endmacro

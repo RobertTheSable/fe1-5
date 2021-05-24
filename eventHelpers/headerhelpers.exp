@@ -1,0 +1,13 @@
+!PlayerVsEnemy = $01
+!PlayerAndNPCVsEnemy = $03
+!PlayerVsEnemyAndNPC = $05
+
+!NoControl = $00
+!PlayerControl = $02
+!AIControl = $04
+
+!EnablePrepScreen = $02
+!DisablePrepScreen = $00
+
+!EnableFog = $01
+!DisableFog = $00
